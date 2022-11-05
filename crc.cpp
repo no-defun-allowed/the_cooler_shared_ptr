@@ -4,8 +4,8 @@
 #include "crc.h"
 
 namespace crc {
-
   bool collecting = false;
+  std::size_t collections = 0;
   
   // Garbage collector
 
@@ -35,6 +35,7 @@ namespace crc {
     std::vector<erased_storage*> zct(zero_count_table);
     zero_count_table.clear();
     collecting = true;
+    collections++;
 
     // Process increments
     for (auto &e : logged_writes)

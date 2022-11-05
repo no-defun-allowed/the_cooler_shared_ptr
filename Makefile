@@ -1,5 +1,5 @@
 TARGETS=test
-CPPFLAGS=-std=c++20 -Wall -O3 -g --pedantic
+CPPFLAGS=-std=c++20 -Wall -fsanitize=address -g --pedantic
 
 test: test.o crc.o
 

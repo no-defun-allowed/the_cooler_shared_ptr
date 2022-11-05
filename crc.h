@@ -3,7 +3,7 @@
 #include <iostream>
 
 namespace crc {
-  const std::size_t LOG_LIMIT = 16384;
+  const std::size_t LOG_LIMIT = 128;
   const std::size_t UNLOGGED = LOG_LIMIT * 2;
 
   struct erased_storage {
@@ -32,6 +32,7 @@ namespace crc {
   };
 
   extern bool collecting;
+  extern std::size_t collections;
   extern void collect();
   extern void add_to_zct(erased_storage *s);
   extern std::size_t add_to_log(erased_crc *p, erased_storage *s);
@@ -47,7 +48,8 @@ namespace crc {
       add_to_zct(ref);
     }
     cooler_shared_ptr(const cooler_shared_ptr<T>& p) {
-      write_barrier(p.storage());
+      cooler_shared_ptr<T>& o = const_cast<cooler_shared_ptr<T>&>(p);
+      write_barrier(o.ref);
     }
     cooler_shared_ptr<T>& operator=(const cooler_shared_ptr<T>& other) {
       if (this == &other) return *this;
